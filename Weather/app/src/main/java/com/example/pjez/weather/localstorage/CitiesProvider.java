@@ -15,11 +15,11 @@ public class CitiesProvider extends InternalStorage {
 
     private static final String TAG = "Cities";
 
-    String FILENAME = "cities";
+    String FILENAME = "cities.data";
 
     ArrayList<String> cities = new ArrayList<String>();
 
-    public CitiesProvider(Context context) throws Exception {
+    public CitiesProvider(Context context) {
         super(context);
 
     }
@@ -37,7 +37,7 @@ public class CitiesProvider extends InternalStorage {
     }
 
 
-    public void removeCity(String city) throws Exception {
+    public void removeCity(String city) {
 
         if (isExist(city))
             cities.remove(city);
@@ -47,7 +47,7 @@ public class CitiesProvider extends InternalStorage {
 
     }
 
-    public ArrayList getCities() throws Exception {
+    public ArrayList getCities() {
 
         loadCities();
 
@@ -55,7 +55,7 @@ public class CitiesProvider extends InternalStorage {
     }
 
 
-    public void saveCities() throws Exception {
+    public void saveCities() {
 
         String data = "";
 
@@ -66,27 +66,37 @@ public class CitiesProvider extends InternalStorage {
             data = data.substring(0, data.length() - 1);
         }
 
-        saveToFile(FILENAME, data);
+        try {
+            saveToFile(FILENAME, data);
+
+        } catch (Exception e) {
+
+        }
 
     }
 
-    public void loadCities() throws Exception {
-
-        String data = readFromFile(FILENAME);
+    public void loadCities() {
         cities = new ArrayList<String>();
 
-        if (data.length() > 0) {
+        try {
+            String data = readFromFile(FILENAME);
 
-            String[] arr = data.split(";");
-            for (String s : arr) {
-                cities.add(s);
+            if (data.length() > 0) {
+
+                String[] arr = data.split(";");
+                for (String s : arr) {
+                    cities.add(s);
+                }
             }
+
+        } catch (Exception e) {
+
         }
 
     }
 
 
-    public boolean isExist(String city) throws Exception {
+    public boolean isExist(String city) {
 
         loadCities();
 

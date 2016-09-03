@@ -36,7 +36,6 @@ public class InternalStorage {
         try {
 
             FileInputStream fis = context.openFileInput(file);
-
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
