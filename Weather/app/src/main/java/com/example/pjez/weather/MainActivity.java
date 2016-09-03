@@ -1,79 +1,88 @@
 package com.example.pjez.weather;
 
+import android.content.ClipData;
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
-import com.example.pjez.weather.api.WeatherApi;
-import com.example.pjez.weather.common.Common;
-import com.example.pjez.weather.download.DownloadUrlTask;
+import com.example.pjez.weather.localstorage.CitiesProvider;
 
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainAct";
 
-    private EditText cityText;
-    private TextView status;
+    protected Spinner citiesList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cityText = (EditText) findViewById(R.id.city_name);
-        status = (TextView) findViewById(R.id.status);
+        citiesList = (Spinner) findViewById(R.id.cities_list);
 
+        fillCitiesList();
     }
 
-    protected void setStatus(String statusText) {
-
-        status.setText(statusText);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillCitiesList();
     }
 
-    public void clickAddCity(View view) {
+    protected void fillCitiesList() {
 
         try {
-            fetchCityData();
+
+            CitiesProvider citiesProvider = new CitiesProvider(getApplicationContext());
+            ArrayList cities = citiesProvider.getCities();
+
+            ArrayAdapter<String> spinAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cities);
+            spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            citiesList.setAdapter(spinAdapter);
+
+
         } catch (Exception e) {
-            setStatus(e.getMessage());
-        }
-    }
-
-    protected String getCityName() throws Exception {
-
-        Editable city = cityText.getText();
-
-        if (city.length() == 0) {
-            throw new Exception("Nazwa miasta nie może być pusta");
+            Log.d(TAG, e.getMessage());
         }
 
-        return city.toString();
 
     }
 
-    protected void fetchCityData() throws Exception {
 
-        if (!new Common(this).isNetworkConnected()) {
-            throw new Exception("Brak połączenia z siecią");
-        }
+    public void addCity(View view) {
 
-        WeatherApi api = new WeatherApi();
-        api.setCityName(getCityName());
-        String stringUrl = api.getFinalUrl();
+        Intent intent = new Intent(this, AddCityActivity.class);
+        startActivity(intent);
 
-        new DownloadCityTask().execute(stringUrl);
     }
 
-    private class DownloadCityTask extends DownloadUrlTask {
+    public void removeCity(View view) {
 
-        @Override
-        protected void onPostExecute(String s) {
-            setStatus(s);
+
+        try {
+            Object item = citiesList.getSelectedItem();
+
+            if(item != null) {
+
+                String city = item.toString();
+                CitiesProvider citiesProvider = new CitiesProvider(getApplicationContext());
+
+                citiesProvider.removeCity(city);
+                fillCitiesList();
+            }
+
+        } catch (Exception e) {
+            Log.d(TAG, e.getMessage());
         }
+
+
     }
-
-
 }
