@@ -17,7 +17,7 @@ public class DownloadUrlTask extends AsyncTask<String, Void, String> {
             return new DownloadUrl().get(urls[0]);
 
         } catch (IOException e) {
-            return "Unable to retrieve web page. URL may be invalid.";
+            return "Serwer jest niedostępny.";
         }
 
     }

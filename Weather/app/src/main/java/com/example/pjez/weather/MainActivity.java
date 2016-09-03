@@ -18,8 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText cityText;
     private TextView status;
 
-    protected String cityName;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,42 +35,36 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickAddCity(View view) {
 
-        getCityName();
-
-        if (new Common(this).isNetworkConnected()) {
-
+        try {
             fetchCityData();
-
-        } else {
-
-            setStatus("Brak połączenia z siecią");
+        } catch (Exception e) {
+            setStatus(e.getMessage());
         }
     }
 
-    protected void getCityName() {
+    protected String getCityName() throws Exception {
 
         Editable city = cityText.getText();
 
         if (city.length() == 0) {
-            cityName = null;
-            setStatus("Podaj nazwę miasta");
-        } else {
-            cityName = city.toString();
-
+            throw new Exception("Nazwa miasta nie może być pusta");
         }
+
+        return city.toString();
 
     }
 
-    protected void fetchCityData() {
+    protected void fetchCityData() throws Exception {
 
-        if (cityName != null) {
-
-            WeatherApi api = new WeatherApi();
-            api.setCityName(cityName);
-            String stringUrl = api.getFinalUrl();
-
-            new DownloadCityTask().execute(stringUrl);
+        if (!new Common(this).isNetworkConnected()) {
+            throw new Exception("Brak połączenia z siecią");
         }
+
+        WeatherApi api = new WeatherApi();
+        api.setCityName(getCityName());
+        String stringUrl = api.getFinalUrl();
+
+        new DownloadCityTask().execute(stringUrl);
     }
 
     private class DownloadCityTask extends DownloadUrlTask {
