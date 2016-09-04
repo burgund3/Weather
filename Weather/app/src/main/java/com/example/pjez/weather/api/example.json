@@ -1,45 +1,48 @@
-//{
-//  "coord": {
-//    "lon": 21.01,
-//    "lat": 52.23
-//  },
-//  "weather": [
-//    {
-//      "id": 501,
-//      "main": "Rain",
-//      "description": "moderate rain",
-//      "icon": "10d"
-//    }
-//  ],
-//  "base": "stations",
-//  "main": {
-//    "temp": 298.76,
-//    "pressure": 1016,
-//    "humidity": 47,
-//    "temp_min": 297.04,
-//    "temp_max": 300.93
-//  },
-//  "visibility": 10000,
-//  "wind": {
-//    "speed": 2.6,
-//    "deg": 200
-//  },
-//  "rain": {
-//    "1h": 1.26
-//  },
-//  "clouds": {
-//    "all": 0
-//  },
-//  "dt": 1472911985,
-//  "sys": {
-//    "type": 1,
-//    "id": 5374,
-//    "message": 0.0296,
-//    "country": "PL",
-//    "sunrise": 1472874724,
-//    "sunset": 1472923010
-//  },
-//  "id": 756135,
-//  "name": "Warsaw",
-//  "cod": 200
-//}
+{
+  "coord": {
+    "lon": 21.01,
+    "lat": 52.23
+  },
+  "weather": [
+    {
+      "id": 501,
+      "main": "Rain",
+      "description": "moderate rain",
+      "icon": "10d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 298.76,
+    "pressure": 1016,
+    "humidity": 47,
+    "temp_min": 297.04,
+    "temp_max": 300.93
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 2.6,
+    "deg": 200
+  },
+  "rain": {
+    "1h": 1.26
+  },
+  "clouds": {
+    "all": 0
+  },
+  "dt": 1472911985,
+  "sys": {
+    "type": 1,
+    "id": 5374,
+    "message": 0.0296,
+    "country": "PL",
+    "sunrise": 1472874724,
+    "sunset": 1472923010
+  },
+  "id": 756135,
+  "name": "Warsaw",
+  "cod": 200
+}
+
+
+{"coord":{"lon":18.95,"lat":49.98},"weather":[{"id":521,"main":"Rain","description":"shower rain","icon":"09n"},{"id":211,"main":"Thunderstorm","description":"thunderstorm","icon":"11n"}],"base":"stations","main":{"temp":292.05,"pressure":1012,"humidity":88,"temp_min":289.26,"temp_max":294.82},"visibility":6000,"wind":{"speed":6.7,"deg":230},"rain":{"1h":3.05},"clouds":{"all":75},"dt":1473020686,"sys":{"type":1,"id":5356,"message":0.0299,"country":"PL","sunrise":1472961922,"sunset":1473009556},"

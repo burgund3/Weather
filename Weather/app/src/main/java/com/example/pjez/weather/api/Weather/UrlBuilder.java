@@ -1,9 +1,9 @@
-package com.example.pjez.weather.api;
+package com.example.pjez.weather.api.Weather;
 
 /**
  * Created by pjez on 03.09.16.
  */
-public class WeatherApi {
+public class UrlBuilder {
 
 
     private static final String baseUrl = "http://api.openweathermap.org/data/2.5/weather";
@@ -13,7 +13,7 @@ public class WeatherApi {
     private String finalUrl = "";
 
 
-    public WeatherApi setCityName(String cityName) {
+    public UrlBuilder setCityName(String cityName) {
         this.cityName = cityName;
         return this;
     }

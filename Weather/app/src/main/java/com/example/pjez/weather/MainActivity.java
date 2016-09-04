@@ -1,6 +1,5 @@
 package com.example.pjez.weather;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.pjez.weather.localstorage.CitiesProvider;
+import com.example.pjez.weather.provider.CitiesProvider;
 
 import java.util.ArrayList;
 
@@ -28,12 +27,15 @@ public class MainActivity extends AppCompatActivity {
         citiesList = (Spinner) findViewById(R.id.cities_list);
 
         fillCitiesList();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         fillCitiesList();
+
+
     }
 
     protected void fillCitiesList() {
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             Object item = citiesList.getSelectedItem();
 
-            if(item != null) {
+            if (item != null) {
 
                 String city = item.toString();
                 CitiesProvider citiesProvider = new CitiesProvider(getApplicationContext());

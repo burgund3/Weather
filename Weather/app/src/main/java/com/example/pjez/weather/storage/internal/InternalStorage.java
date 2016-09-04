@@ -1,9 +1,8 @@
-package com.example.pjez.weather.localstorage;
+package com.example.pjez.weather.storage.internal;
 
 import android.content.Context;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;

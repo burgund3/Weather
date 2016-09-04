@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -21,7 +20,7 @@ public class DownloadUrl {
     public String get(String myurl) throws IOException {
         InputStream is = null;
 
-        int len = 500;
+        int len = 4000;
 
         try {
             URL url = new URL(myurl);
@@ -46,7 +45,7 @@ public class DownloadUrl {
         }
     }
 
-    private String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
+    private String readIt(InputStream stream, int len) throws IOException {
         Reader reader = null;
         reader = new InputStreamReader(stream, "UTF-8");
         char[] buffer = new char[len];

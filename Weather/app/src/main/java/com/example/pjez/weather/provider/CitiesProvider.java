@@ -1,11 +1,9 @@
-package com.example.pjez.weather.localstorage;
+package com.example.pjez.weather.provider;
 
 import android.content.Context;
-import android.util.Log;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Array;
+import com.example.pjez.weather.storage.internal.InternalStorage;
+
 import java.util.ArrayList;
 
 /**
@@ -100,10 +98,7 @@ public class CitiesProvider extends InternalStorage {
 
         loadCities();
 
-        if (cities.contains(city))
-            return true;
-
-        return false;
+        return cities.contains(city);
 
     }
 

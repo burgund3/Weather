@@ -1,5 +1,6 @@
 package com.example.pjez.weather;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -8,12 +9,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.pjez.weather.api.WeatherApi;
-import com.example.pjez.weather.api.WeatherApiObject_City;
-import com.example.pjez.weather.api.WeatherDataParser;
+import com.example.pjez.weather.api.Weather.Object.ApiWeatherCity;
+import com.example.pjez.weather.api.Weather.UrlBuilder;
+import com.example.pjez.weather.api.Weather.JSONParser;
 import com.example.pjez.weather.common.Common;
 import com.example.pjez.weather.download.DownloadUrlTask;
-import com.example.pjez.weather.localstorage.CitiesProvider;
+import com.example.pjez.weather.provider.CitiesProvider;
 
 public class AddCityActivity extends AppCompatActivity {
 
@@ -35,7 +36,7 @@ public class AddCityActivity extends AppCompatActivity {
 
     }
 
-    public void back(View view){
+    public void back(View view) {
         finish();
     }
 
@@ -71,7 +72,7 @@ public class AddCityActivity extends AppCompatActivity {
             throw new Exception("Brak połączenia z siecią");
         }
 
-        WeatherApi api = new WeatherApi();
+        UrlBuilder api = new UrlBuilder();
         api.setCityName(getCityName());
         String stringUrl = api.getFinalUrl();
 
@@ -79,23 +80,16 @@ public class AddCityActivity extends AppCompatActivity {
     }
 
 
-    protected void afterFetch(String s) {
+    protected void afterFetch(String json) {
 
         try {
 
-            Log.d(TAG, s);
-
-
-            WeatherDataParser parser = new WeatherDataParser(s);
-            WeatherApiObject_City weather = parser.getObject();
-            String city = weather.name;
-
-            processCityName(city);
-
+            ApiWeatherCity cityObject = new JSONParser(json).getCityWeather();
+            processCityName(cityObject.name);
             finish();
 
         } catch (Exception e) {
-            setStatus(e.getMessage());
+            setStatus(e.getLocalizedMessage());
         }
 
 
@@ -103,11 +97,11 @@ public class AddCityActivity extends AppCompatActivity {
 
     protected void processCityName(String s) throws Exception {
 
-        if (!cityName.equals(s))
-            throw new Exception("Nie znaleziono takiego miasta");
+        if (!cityName.toLowerCase().equals(s.toLowerCase()))
+            throw new Resources.NotFoundException("Nie znaleziono takiego miasta");
 
         CitiesProvider cities = new CitiesProvider(this.getApplicationContext());
-        cities.addCity(cityName);
+        cities.addCity(s);
 
     }
 
