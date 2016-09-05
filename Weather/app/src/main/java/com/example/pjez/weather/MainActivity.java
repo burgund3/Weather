@@ -17,9 +17,11 @@ import com.example.pjez.weather.api.Weather.Object.ApiWeatherCity;
 import com.example.pjez.weather.api.Weather.UrlBuilder;
 import com.example.pjez.weather.common.Common;
 import com.example.pjez.weather.download.DownloadUrlTask;
-import com.example.pjez.weather.provider.CitiesProvider;
+import com.example.pjez.weather.provider.Entity.City;
+import com.example.pjez.weather.provider.Sql.CitiesProvider;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             CitiesProvider citiesProvider = new CitiesProvider(getApplicationContext());
-            ArrayList cities = citiesProvider.getCities();
+            List<City> cities = citiesProvider.getAll();
 
             ArrayAdapter<String> spinAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cities);
             spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -141,13 +143,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    protected void processCityName(String s) throws Exception {
+    protected void processCityName(String name) throws Exception {
 
-        if (!cityName.toLowerCase().equals(s.toLowerCase()))
+        if (!cityName.toLowerCase().equals(name.toLowerCase()))
             throw new Resources.NotFoundException("Nie znaleziono takiego miasta");
 
+        City city = new City(name);
+
         CitiesProvider cities = new CitiesProvider(this.getApplicationContext());
-        cities.addCity(s);
+        cities.add(city);
 
     }
 
@@ -160,10 +164,10 @@ public class MainActivity extends AppCompatActivity {
 
             if (item != null) {
 
-                String city = item.toString();
+                City city = new City(item.toString());
                 CitiesProvider citiesProvider = new CitiesProvider(getApplicationContext());
 
-                citiesProvider.removeCity(city);
+                citiesProvider.delete(city);
                 fillCitiesList();
             }
 
