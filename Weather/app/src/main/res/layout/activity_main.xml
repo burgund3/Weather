@@ -26,7 +26,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="addCity"
+            android:onClick="clickAddCity"
             android:text="dodaj" />
 
     </LinearLayout>
@@ -38,16 +38,15 @@
 
         <Spinner
             android:id="@+id/cities_list"
-            android:layout_width="0dp"
+            android:layout_width="10dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:entries="@array/empty_list"
-            android:spinnerMode="dialog"></Spinner>
+            android:spinnerMode="dialog"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="removeCity"
             android:text="Usuń" />
 
     </LinearLayout>
