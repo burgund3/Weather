@@ -11,6 +11,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.pjez.weather.MainActivity">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/city_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="addCity"
+            android:text="dodaj" />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,13 +41,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:entries="@array/empty_list"
             android:spinnerMode="dialog"></Spinner>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="addCity"
-            android:text="Dodaj" />
 
         <Button
             android:layout_width="wrap_content"
@@ -36,5 +51,12 @@
             android:text="Usuń" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp" />
+
 
 </LinearLayout>
