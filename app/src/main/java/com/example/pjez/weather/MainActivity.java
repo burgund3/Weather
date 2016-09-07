@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         citiesList = (Spinner) findViewById(R.id.cities_list);
-
         cityText = (EditText) findViewById(R.id.city_name);
         status = (TextView) findViewById(R.id.status);
     }
