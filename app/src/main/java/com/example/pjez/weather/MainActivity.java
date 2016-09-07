@@ -9,6 +9,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.pjez.weather.provider.Entity.City;
+import com.example.pjez.weather.provider.Sql.CitiesProvider;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         citiesList = (Spinner) findViewById(R.id.cities_list);
         cityText = (EditText) findViewById(R.id.city_name);
         status = (TextView) findViewById(R.id.status);
+
     }
 
 
@@ -45,7 +52,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        setStatus(cityName.toString());
+        String cityNameString = cityName.toString();
+        City city = new City(cityNameString);
+
+        new CitiesProvider(this)
+                .add(city);
+
+        setStatus(city.getId() + ": "+ city.getName());
     }
 
 }

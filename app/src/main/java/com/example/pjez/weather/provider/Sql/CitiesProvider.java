@@ -2,6 +2,7 @@ package com.example.pjez.weather.provider.Sql;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -40,14 +41,17 @@ public class CitiesProvider extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void add(City city) {
+    public CitiesProvider add(City city) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, city.getName());
 
-        db.insert(DATABASE_TABLE, null, values);
+        long id = db.insert(DATABASE_TABLE, null, values);
+        city.setId((int) id);
         db.close();
+
+        return this;
     }
 
     public City get(int id) {
@@ -57,11 +61,15 @@ public class CitiesProvider extends SQLiteOpenHelper {
                         KEY_NAME}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
-        if (cursor != null)
-            cursor.moveToFirst();
+        if (cursor == null)
+            throw new Resources.NotFoundException();
 
-        City city = new City(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1));
+        cursor.moveToFirst();
+
+        City city = new City(
+                Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1)
+        );
 
         return city;
     }
@@ -109,11 +117,13 @@ public class CitiesProvider extends SQLiteOpenHelper {
                 new String[]{String.valueOf(city.getId())});
     }
 
-    public void delete(City city) {
+    public CitiesProvider delete(City city) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DATABASE_TABLE, KEY_ID + " = ?",
                 new String[]{String.valueOf(city.getId())});
         db.close();
+
+        return this;
     }
 
 }
