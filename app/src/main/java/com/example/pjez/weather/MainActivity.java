@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.pjez.weather.Service.ApiWeatherService;
+import com.example.pjez.weather.Service.Exception.EmptyNameException;
+import com.example.pjez.weather.api.Weather.Object.ApiWeatherCity;
 import com.example.pjez.weather.provider.Entity.City;
 import com.example.pjez.weather.provider.Sql.CitiesProvider;
 
@@ -29,10 +32,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init();
+    }
+
+    private void init() {
         citiesList = (Spinner) findViewById(R.id.cities_list);
         cityText = (EditText) findViewById(R.id.city_name);
         status = (TextView) findViewById(R.id.status);
-
     }
 
 
@@ -42,23 +48,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // wyczysc nazwe miasta
+    private void clearCityText() {
+        cityText.setText("");
+    }
+
+
     // dodawanie miasta
     public void clickAddCity(View view) {
 
-        Editable cityName = cityText.getText();
+        String name = cityText.getText().toString();
 
-        if(cityName.length() == 0){
-            setStatus("Nazwa miasta nie może byc pusta.");
-            return;
+        new ApiWeatherService(this) {
+            @Override
+            protected void onSuccess(Object result) {
+                super.onSuccess(result);
+                City city = (City) result;
+                setStatus("Dodano miasto: " + city.getName());
+                clearCityText();
+            }
+
+            @Override
+            protected void onFailed(Object result) {
+                super.onFailed(result);
+                setStatus("Nazwa miasta nie może być pusta.");
+                clearCityText();
+            }
         }
+                .addCity(name);
 
-        String cityNameString = cityName.toString();
-        City city = new City(cityNameString);
-
-        new CitiesProvider(this)
-                .add(city);
-
-        setStatus(city.getId() + ": "+ city.getName());
     }
+
 
 }
